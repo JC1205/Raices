@@ -49,10 +49,13 @@ public class frmPrincipal extends javax.swing.JFrame {
         txtRaiz = new javax.swing.JTextField();
         txtFx = new javax.swing.JTextField();
         txtIter = new javax.swing.JTextField();
+        cbxMetodo = new javax.swing.JComboBox<>();
+        jLabel10 = new javax.swing.JLabel();
 
         jButton1.setText("jButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -102,6 +105,10 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         txtIter.setEditable(false);
 
+        cbxMetodo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Biseccion", "Regla falsa" }));
+
+        jLabel10.setText("Metodo:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -110,17 +117,21 @@ public class frmPrincipal extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(txtXi, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtXf, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cbxMetodo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtError, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtError, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addGap(18, 18, 18)
@@ -141,7 +152,7 @@ public class frmPrincipal extends javax.swing.JFrame {
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(73, 73, 73)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
@@ -167,7 +178,10 @@ public class frmPrincipal extends javax.swing.JFrame {
                     .addComponent(txtXf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtError, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
-                .addComponent(jButton2)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(cbxMetodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
                 .addGap(28, 28, 28)
                 .addComponent(jLabel6)
                 .addGap(26, 26, 26)
@@ -200,48 +214,50 @@ public class frmPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-try {
+        try {
+            RaicesFunciones calculadora = new RaicesFunciones();
 
-    RaicesFunciones calculadora = new RaicesFunciones();
-    DoubleUnaryOperator f = (x) -> 4*Math.pow(x, 3) - 6*Math.pow(x, 2) + 7*x - 2.3;
-    DoubleUnaryOperator g = (x) -> Math.pow(x, 2) * Math.sqrt(Math.abs(Math.cos(x))) - 5;
+            DoubleUnaryOperator f = (x) -> 4*Math.pow(x, 3) - 6*Math.pow(x, 2) + 7*x - 2.3;
+            DoubleUnaryOperator g = (x) -> Math.pow(x, 2) * Math.sqrt(Math.abs(Math.cos(x))) - 5;
 
-    int funcionSeleccionada = cbxFuncion.getSelectedIndex();
-    double xi = Double.parseDouble(txtXi.getText());
-    double xf = Double.parseDouble(txtXf.getText());
-    double error = Double.parseDouble(txtError.getText());
-    
-    DoubleUnaryOperator funcionActual;
-    double raiz;
-    
-    if (funcionSeleccionada == 0) { 
-        funcionActual = f;
-        raiz = calculadora.biseccion(funcionActual, xi, xf, error);
-    } else { 
-        funcionActual = g;
-        raiz = calculadora.reglaFalsa(funcionActual, xi, xf, error);
-    }
-    
+            int funcionSeleccionada = cbxFuncion.getSelectedIndex();
+            int metodoSeleccionado  = cbxMetodo.getSelectedIndex();
 
-    double valorFuncion = funcionActual.applyAsDouble(raiz);
-    
-    txtRaiz.setText(String.format("%.6f", raiz));
-    txtFx.setText(String.format("%.6f", valorFuncion));
-    txtIter.setText(String.valueOf(calculadora.getIteraciones()));
-    
-} catch (NumberFormatException ex) {
-    JOptionPane.showMessageDialog(this, "Error: Ingrese valores numericos validos", "Error de entrada", JOptionPane.ERROR_MESSAGE);
+            double xi    = Double.parseDouble(txtXi.getText());
+            double xf    = Double.parseDouble(txtXf.getText());
+            double error = Double.parseDouble(txtError.getText());
 
-} catch (IllegalArgumentException ex) {
-    JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error de calculo", JOptionPane.ERROR_MESSAGE);
+            DoubleUnaryOperator funcionActual = (funcionSeleccionada == 0) ? f : g;
 
-} catch (Exception ex) {
-    JOptionPane.showMessageDialog(this, "Error inesperado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-}
+            double raiz;
+            if (metodoSeleccionado == 0) { 
+                raiz = calculadora.biseccion(funcionActual, xi, xf, error);
+            } else { 
+                raiz = calculadora.reglaFalsa(funcionActual, xi, xf, error);
+            }
+
+            double valorFuncion = funcionActual.applyAsDouble(raiz);
+
+            txtRaiz.setText(String.format("%.6f", raiz));
+            txtFx.setText(String.format("%.6f", valorFuncion));
+            txtIter.setText(String.valueOf(calculadora.getIteraciones()));
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Error: Ingrese valores numericos validos", 
+                    "Error de entrada", JOptionPane.ERROR_MESSAGE);
+
+        } catch (IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), 
+                    "Error de calculo", JOptionPane.ERROR_MESSAGE);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error inesperado: " + ex.getMessage(), 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void txtRaizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRaizActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here
     }//GEN-LAST:event_txtRaizActionPerformed
 
     private void txtXiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtXiActionPerformed
@@ -285,9 +301,11 @@ try {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cbxFuncion;
+    private javax.swing.JComboBox<String> cbxMetodo;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
