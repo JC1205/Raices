@@ -4,9 +4,11 @@
  */
 package pruebas;
 
+import implementaciones.Iteracion;
 import implementaciones.RaicesFunciones;
 import java.util.function.DoubleUnaryOperator;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -51,6 +53,8 @@ public class frmPrincipal extends javax.swing.JFrame {
         txtIter = new javax.swing.JTextField();
         cbxMetodo = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblRaices = new javax.swing.JTable();
 
         jButton1.setText("jButton1");
 
@@ -109,6 +113,16 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         jLabel10.setText("Metodo:");
 
+        tblRaices.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Iteracion", "Xi", "Xf", "Xr", "f(Xi)", "f(Xf)", "f(Xr)", "Ea"
+            }
+        ));
+        jScrollPane1.setViewportView(tblRaices);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -145,25 +159,25 @@ public class frmPrincipal extends javax.swing.JFrame {
                             .addComponent(txtRaiz)
                             .addComponent(txtFx, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(cbxFuncion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(73, 73, 73)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(27, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(94, 94, 94))
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(cbxFuncion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(23, 23, 23)
                 .addComponent(jLabel1)
-                .addGap(29, 29, 29)
+                .addGap(27, 27, 27)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(cbxFuncion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -196,7 +210,11 @@ public class frmPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(txtIter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(78, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -214,46 +232,54 @@ public class frmPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        try {
-            RaicesFunciones calculadora = new RaicesFunciones();
+try {
+    RaicesFunciones calculadora = new RaicesFunciones();
 
-            DoubleUnaryOperator f = (x) -> 4*Math.pow(x, 3) - 6*Math.pow(x, 2) + 7*x - 2.3;
-            DoubleUnaryOperator g = (x) -> Math.pow(x, 2) * Math.sqrt(Math.abs(Math.cos(x))) - 5;
+    DoubleUnaryOperator f = (x) -> 4*Math.pow(x, 3) - 6*Math.pow(x, 2) + 7*x - 2.3;
+    DoubleUnaryOperator g = (x) -> Math.pow(x, 2) * Math.sqrt(Math.abs(Math.cos(x))) - 5;
 
-            int funcionSeleccionada = cbxFuncion.getSelectedIndex();
-            int metodoSeleccionado  = cbxMetodo.getSelectedIndex();
+    int funcionSeleccionada = cbxFuncion.getSelectedIndex();
+    int metodoSeleccionado  = cbxMetodo.getSelectedIndex();
 
-            double xi    = Double.parseDouble(txtXi.getText());
-            double xf    = Double.parseDouble(txtXf.getText());
-            double error = Double.parseDouble(txtError.getText());
+    double xi    = Double.parseDouble(txtXi.getText());
+    double xf    = Double.parseDouble(txtXf.getText());
+    double error = Double.parseDouble(txtError.getText());
 
-            DoubleUnaryOperator funcionActual = (funcionSeleccionada == 0) ? f : g;
+    DoubleUnaryOperator funcionActual = (funcionSeleccionada == 0) ? f : g;
 
-            double raiz;
-            if (metodoSeleccionado == 0) { 
-                raiz = calculadora.biseccion(funcionActual, xi, xf, error);
-            } else { 
-                raiz = calculadora.reglaFalsa(funcionActual, xi, xf, error);
-            }
+    double raiz;
+    if (metodoSeleccionado == 0) { 
+        raiz = calculadora.biseccion(funcionActual, xi, xf, error);
+    } else { 
+        raiz = calculadora.reglaFalsa(funcionActual, xi, xf, error);
+    }
 
-            double valorFuncion = funcionActual.applyAsDouble(raiz);
+    double valorFuncion = funcionActual.applyAsDouble(raiz);
 
-            txtRaiz.setText(String.format("%.6f", raiz));
-            txtFx.setText(String.format("%.6f", valorFuncion));
-            txtIter.setText(String.valueOf(calculadora.getIteraciones()));
+    txtRaiz.setText(String.format("%.6f", raiz));
+    txtFx.setText(String.format("%.6f", valorFuncion));
+    txtIter.setText(String.valueOf(calculadora.getIteraciones()));
 
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Error: Ingrese valores numericos validos", 
-                    "Error de entrada", JOptionPane.ERROR_MESSAGE);
+    // Llenar tabla con las iteraciones
+    DefaultTableModel model = (DefaultTableModel) tblRaices.getModel();
+    model.setRowCount(0); // limpiar tabla
 
-        } catch (IllegalArgumentException ex) {
-            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), 
-                    "Error de calculo", JOptionPane.ERROR_MESSAGE);
+    for (Iteracion it : calculadora.getPasos()) {
+        model.addRow(it.toRow());
+    }
 
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error inesperado: " + ex.getMessage(), 
-                    "Error", JOptionPane.ERROR_MESSAGE);
-        }
+} catch (NumberFormatException ex) {
+    JOptionPane.showMessageDialog(this, "Error: Ingrese valores numericos validos", 
+            "Error de entrada", JOptionPane.ERROR_MESSAGE);
+
+} catch (IllegalArgumentException ex) {
+    JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), 
+            "Error de calculo", JOptionPane.ERROR_MESSAGE);
+
+} catch (Exception ex) {
+    JOptionPane.showMessageDialog(this, "Error inesperado: " + ex.getMessage(), 
+            "Error", JOptionPane.ERROR_MESSAGE);
+}
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void txtRaizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRaizActionPerformed
@@ -315,6 +341,8 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblRaices;
     private javax.swing.JTextField txtError;
     private javax.swing.JTextField txtFx;
     private javax.swing.JTextField txtIter;
