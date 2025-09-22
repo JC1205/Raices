@@ -232,54 +232,53 @@ public class frmPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-try {
-    RaicesFunciones calculadora = new RaicesFunciones();
+    try {
+        RaicesFunciones calculadora = new RaicesFunciones();
 
-    DoubleUnaryOperator f = (x) -> 4*Math.pow(x, 3) - 6*Math.pow(x, 2) + 7*x - 2.3;
-    DoubleUnaryOperator g = (x) -> Math.pow(x, 2) * Math.sqrt(Math.abs(Math.cos(x))) - 5;
+        DoubleUnaryOperator f = (x) -> 4*Math.pow(x, 3) - 6*Math.pow(x, 2) + 7*x - 2.3;
+        DoubleUnaryOperator g = (x) -> Math.pow(x, 2) * Math.sqrt(Math.abs(Math.cos(x))) - 5;
 
-    int funcionSeleccionada = cbxFuncion.getSelectedIndex();
-    int metodoSeleccionado  = cbxMetodo.getSelectedIndex();
+        int funcionSeleccionada = cbxFuncion.getSelectedIndex();
+        int metodoSeleccionado  = cbxMetodo.getSelectedIndex();
 
-    double xi    = Double.parseDouble(txtXi.getText());
-    double xf    = Double.parseDouble(txtXf.getText());
-    double error = Double.parseDouble(txtError.getText());
+        double xi    = Double.parseDouble(txtXi.getText());
+        double xf    = Double.parseDouble(txtXf.getText());
+        double error = Double.parseDouble(txtError.getText());
 
-    DoubleUnaryOperator funcionActual = (funcionSeleccionada == 0) ? f : g;
+        DoubleUnaryOperator funcionActual = (funcionSeleccionada == 0) ? f : g;
 
-    double raiz;
-    if (metodoSeleccionado == 0) { 
-        raiz = calculadora.biseccion(funcionActual, xi, xf, error);
-    } else { 
-        raiz = calculadora.reglaFalsa(funcionActual, xi, xf, error);
+        double raiz;
+        if (metodoSeleccionado == 0) { 
+            raiz = calculadora.biseccion(funcionActual, xi, xf, error);
+        } else { 
+            raiz = calculadora.reglaFalsa(funcionActual, xi, xf, error);
+        }
+
+        double valorFuncion = funcionActual.applyAsDouble(raiz);
+
+        txtRaiz.setText(String.format("%.6f", raiz));
+        txtFx.setText(String.format("%.6f", valorFuncion));
+        txtIter.setText(String.valueOf(calculadora.getIteraciones()));
+
+        DefaultTableModel model = (DefaultTableModel) tblRaices.getModel();
+        model.setRowCount(0);
+
+        for (Iteracion it : calculadora.getPasos()) {
+            model.addRow(it.toRow());
+        }
+
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(this, "Error: Ingrese valores numericos validos", 
+                "Error de entrada", JOptionPane.ERROR_MESSAGE);
+
+    } catch (IllegalArgumentException ex) {
+        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), 
+                "Error de calculo", JOptionPane.ERROR_MESSAGE);
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error inesperado: " + ex.getMessage(), 
+                "Error", JOptionPane.ERROR_MESSAGE);
     }
-
-    double valorFuncion = funcionActual.applyAsDouble(raiz);
-
-    txtRaiz.setText(String.format("%.6f", raiz));
-    txtFx.setText(String.format("%.6f", valorFuncion));
-    txtIter.setText(String.valueOf(calculadora.getIteraciones()));
-
-    // Llenar tabla con las iteraciones
-    DefaultTableModel model = (DefaultTableModel) tblRaices.getModel();
-    model.setRowCount(0); // limpiar tabla
-
-    for (Iteracion it : calculadora.getPasos()) {
-        model.addRow(it.toRow());
-    }
-
-} catch (NumberFormatException ex) {
-    JOptionPane.showMessageDialog(this, "Error: Ingrese valores numericos validos", 
-            "Error de entrada", JOptionPane.ERROR_MESSAGE);
-
-} catch (IllegalArgumentException ex) {
-    JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), 
-            "Error de calculo", JOptionPane.ERROR_MESSAGE);
-
-} catch (Exception ex) {
-    JOptionPane.showMessageDialog(this, "Error inesperado: " + ex.getMessage(), 
-            "Error", JOptionPane.ERROR_MESSAGE);
-}
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void txtRaizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRaizActionPerformed

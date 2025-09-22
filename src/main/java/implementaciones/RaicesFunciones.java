@@ -36,7 +36,7 @@ public class RaicesFunciones {
         iteraciones = 0;
 
         if (f.applyAsDouble(xi) * f.applyAsDouble(xf) > 0) {
-            throw new IllegalArgumentException("El intervalo no es válido");
+            throw new IllegalArgumentException("El intervalo no es valido");
         }
 
         do {
@@ -71,7 +71,7 @@ public class RaicesFunciones {
         iteraciones = 0;
 
         if (f.applyAsDouble(xi) * f.applyAsDouble(xf) > 0) {
-            throw new IllegalArgumentException("El intervalo no es válido");
+            throw new IllegalArgumentException("El intervalo no es valido");
         }
 
         do {
